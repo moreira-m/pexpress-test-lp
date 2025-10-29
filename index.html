@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gerador de Mensagens de Venda</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 40px; max-width: 500px; }
+    label { display: block; margin-top: 10px; }
+    input, select { width: 100%; padding: 8px; margin-top: 5px; }
+    button { margin-top: 15px; padding: 10px; width: 48%; }
+    .actions { display: flex; justify-content: space-between; }
+    textarea { width: 100%; height: 100px; margin-top: 15px; }
+  </style>
+</head>
+<body>
+
+  <h2>Gerar mensagem de venda</h2>
+
+  <label>Cliente:</label>
+  <input id="cliente" placeholder="Nome do cliente">
+
+  <label>Produto:</label>
+  <input id="produto" placeholder="Nome do produto">
+
+  <label>Quantidade:</label>
+  <input id="quantidade" type="number" placeholder="1">
+
+  <label>Valor:</label>
+  <input id="valor" placeholder="Ex: R$ 497">
+
+  <label>Forma de pagamento:</label>
+  <select id="forma">
+    <option value="Pix">Pix</option>
+    <option value="Cartão">Cartão</option>
+    <option value="Dinheiro">Dinheiro</option>
+  </select>
+
+  <div class="actions">
+    <button onclick="gerarMensagem()">Gerar</button>
+    <button onclick="limpar()">Limpar</button>
+  </div>
+
+  <textarea id="mensagem" readonly></textarea>
+
+  <div class="actions">
+    <button onclick="copiar()">Copiar</button>
+    <button onclick="abrirWhatsApp()">Abrir WhatsApp</button>
+  </div>
+
+  <script>
+    function gerarMensagem() {
+      const cliente = document.getElementById('cliente').value.trim();
+      const produto = document.getElementById('produto').value.trim();
+      const quantidade = document.getElementById('quantidade').value.trim();
+      const valor = document.getElementById('valor').value.trim();
+      const forma = document.getElementById('forma').value;
+
+      const mensagem = `VENDA | Cliente: ${cliente} | Produto: ${produto} | Qtde: ${quantidade} | Valor: ${valor} | Forma: ${forma}`;
+      document.getElementById('mensagem').value = mensagem;
+    }
+
+    function copiar() {
+      const mensagem = document.getElementById('mensagem').value;
+      if (!mensagem) return alert('Gere uma mensagem primeiro!');
+      navigator.clipboard.writeText(mensagem);
+      alert('Mensagem copiada!');
+    }
+
+    function abrirWhatsApp() {
+      const mensagem = document.getElementById('mensagem').value;
+      if (!mensagem) return alert('Gere uma mensagem primeiro!');
+      const url = `https://wa.me/?text=${encodeURIComponent(mensagem)}`;
+      window.open(url, '_blank');
+    }
+
+    function limpar() {
+      document.querySelectorAll('input').forEach(el => el.value = '');
+      document.getElementById('mensagem').value = '';
+    }
+  </script>
+
+</body>
+</html>
